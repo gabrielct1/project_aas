@@ -1,26 +1,34 @@
 # Project AAS — Analysis of Anabolic Steroids Content
 
-This repository contains notebooks and tools for collecting, preprocessing, and analyzing YouTube content about anabolic steroid use. Notebooks cover transcription, summarization, topic modeling, face analysis, and model training (multi-label classification).
+This repository contains a comprehensive pipeline for collecting, preprocessing, and analyzing YouTube content related to anabolic steroid use. The project uses Natural Language Processing (NLP) and Computer Vision (CV) to characterize the discourse and demographics of the community.
 
-Contents
+## Pipeline Overview
 
-- Notebooks:
-  - `data_prep.ipynb` — data preparation
-  - `characterization.ipynb` — dataset characterization
-  - `transcription.ipynb` — audio transcription
-  - `summarization.ipynb` — transcript summarization (uses OpenAI) — prompt preserved
-  - `language_detection.ipynb` — language detection
-  - `frame_collection.ipynb` — frame extraction and face processing
-  - `face_analysis.ipynb` — face embeddings and clustering
-  - `topic_analysis.ipynb` — topic modeling (BERTopic) and demographic profiling
-  - `temporal_analysis.ipynb` — temporal exploratory analysis
-  - `data_treatment.ipynb` — cleaning scripts
-  - `data_annotation.ipynb` — annotation utilities
-  - `Training and Validation MultiLABEL.ipynb` — multi-label training with LoRA + 4-bit quant
+The analysis is divided into several stages, each handled by specific notebooks:
 
-How to run
+### 1. Data Collection & Preparation
+- `data_prep.ipynb`: Initial data loading, keyword filtering, and basic statistics.
+- `transcription.ipynb`: Automates audio download (yt-dlp) and transcription using OpenAI's Whisper model.
+- `language_detection.ipynb`: Filters content to ensure only Portuguese-language videos are analyzed (using XLM-RoBERTa).
+- `data_treatment.ipynb`: Data cleaning, deduplication, and validation of the comments dataset.
 
-1. Create a Python environment and install requirements (examples):
+### 2. Content Analysis
+- `summarization.ipynb`: Uses GPT models to extract structured information from video transcripts (topics, substances, side effects).
+- `topic_analysis.ipynb`: Performs topic modeling using BERTopic and analyzes the prevalence of different themes.
+- `characterization.ipynb`: Exploratory Data Analysis (EDA) of user behavior and term frequency (TF-IDF) analysis.
+- `temporal_analysis.ipynb`: Analyzes the evolution of content and engagement over time.
+
+### 3. Demographic & Visual Analysis
+- `frame_collection.ipynb`: Extracts frames from videos and detects faces and its corresponding attributes
+- `face_analysis.ipynb`: Estimates age and gender of content creators and users to build demographic profiles.
+
+### 4. Machine Learning & Modeling
+- `data_annotation.ipynb`: Utilities for sampling and preparing data for manual annotation.
+- `Training and Validation MultiLABEL.ipynb`: Trains a multi-label classification model (e.g., LLaMA 3.1) using LoRA and 4-bit quantization for high-efficiency fine-tuning.
+
+## How to run
+
+1. Create a Python environment and install requirements:
 
 ```bash
 python -m venv .venv
@@ -28,11 +36,11 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Requirements (high level)
+2. **Requirements**: Python 3.10+, PyTorch, Transformers, BERTopic, DeepFace, InsightFace, and other standard data science libraries (see `requirements.txt`).
 
-- Python 3.10+
-- numpy, pandas, torch, transformers, sentence-transformers, bertopic, umap-learn, hdbscan, scikit-learn, bitsandbytes, peft, tqdm, nltk, spacy, matplotlib, seaborn
+## Dataset
 
-Dataset
+Due to privacy and data sharing restrictions, this repository does not include the original video files or the full processed datasets. The provided `video_ids/video_ids.csv` contains the YouTube IDs used in this study, which can be used to re-collect the data and reproduce the results.
 
-- Due to data sharing restrictions, this repository does not include the original videos or full datasets. The only dataset file provided in this repo is a list of video IDs (`video_ids/video_ids.csv`). With these IDs you can re-download the videos and metadata to reproduce analyses locally.
+---
+*This project is part of a research initiative at UFOP.*
