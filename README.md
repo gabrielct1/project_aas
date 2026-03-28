@@ -1,46 +1,76 @@
-# Project AAS — Analysis of Anabolic Steroids Content
+# Analysis of Anabolic Steroid–Related Content on YouTube
 
-This repository contains a comprehensive pipeline for collecting, preprocessing, and analyzing YouTube content related to anabolic steroid use. The project uses Natural Language Processing (NLP) and Computer Vision (CV) to characterize the discourse and demographics of the community.
+This repository contains the research pipeline for a large-scale analysis of public YouTube content related to anabolic steroids. The project combines natural language processing (NLP) and visual analysis (computer vision) to characterize said discussion.
 
-## Pipeline Overview
+## Research Overview
 
-The analysis is divided into several stages, each handled by specific notebooks:
+The study uses a multimodal approach to:
 
-### 1. Data Collection & Preparation
-- `data_prep.ipynb`: Initial data loading, keyword filtering, and basic statistics.
-- `transcription.ipynb`: Automates audio download (yt-dlp) and transcription using OpenAI's Whisper model.
-- `language_detection.ipynb`: Filters content to ensure only Portuguese-language videos are analyzed (using XLM-RoBERTa).
-- `data_treatment.ipynb`: Data cleaning, deduplication, and validation of the comments dataset.
+- perform automated transcription of videos;
+- run multilabel classification of comments;
+- apply topic modeling to identify recurring themes;
+- produce aggregated demographic characterizations from profile images and video frames.
 
-### 2. Content Analysis
-- `summarization.ipynb`: Uses GPT models to extract structured information from video transcripts (topics, substances, side effects).
-- `topic_analysis.ipynb`: Performs topic modeling using BERTopic and analyzes the prevalence of different themes.
-- `characterization.ipynb`: Exploratory Data Analysis (EDA) of user behavior and term frequency (TF-IDF) analysis.
-- `temporal_analysis.ipynb`: Analyzes the evolution of content and engagement over time.
-
-### 3. Demographic & Visual Analysis
-- `frame_collection.ipynb`: Extracts frames from videos and detects faces and its corresponding attributes
-- `face_analysis.ipynb`: Estimates age and gender of content creators and users to build demographic profiles.
-
-### 4. Machine Learning & Modeling
-- `data_annotation.ipynb`: Utilities for sampling and preparing data for manual annotation.
-- `Training and Validation MultiLABEL.ipynb`: Trains a multi-label classification model (e.g., LLaMA 3.1) using LoRA and 4-bit quantization for high-efficiency fine-tuning.
-
-## How to run
-
-1. Create a Python environment and install requirements:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-2. **Requirements**: Python 3.10+, PyTorch, Transformers, BERTopic, DeepFace, InsightFace, and other standard data science libraries (see `requirements.txt`).
-
-## Dataset
-
-Due to privacy and data sharing restrictions, this repository does not include the original video files or the full processed datasets. The provided `video_ids/video_ids.csv` contains the YouTube IDs used in this study, which can be used to re-collect the data and reproduce the results.
+**Status**: associated manuscript currently under submission/review at **Computers in Human Behavior**.
 
 ---
-*This project is part of a research initiative at UFOP.*
+
+## Methodological Pipeline
+
+The pipeline is organized as Jupyter notebooks in the `notebooks/` folder. Below is a functional summary of each notebook and its purpose.
+
+- `transcription.ipynb`: availability checks, audio extraction, and automatic transcription of videos.
+- `data_prep.ipynb`: loading, text normalization and term-based filtering.
+- `language_detection.ipynb`: language detection and filtering of videos in Portuguese.
+- `data_treatment.ipynb`: cleaning, date handling, missing value treatment, deduplication, and final dataset validation.
+- `data_annotation.ipynb`: stratified selection and preparation of samples for manual annotation.
+- `Training and Validation MultiLABEL.ipynb`: large-scale training and inference pipeline for multilabel comment classification.
+- `summarization.ipynb`: structured summarization of transcriptions.
+- `topic_analysis.ipynb`: topic modeling and topic-level distribution analysis.
+- `temporal_analysis.ipynb`: temporal analyses of content/users engagement.
+- `frame_collection.ipynb`: frame extraction and demographic inference.
+- `face_analysis.ipynb`: face detection on profile images and inference of demographic attributes.
+
+---
+
+## Technical Components (high-level)
+
+- Transcription pipelines: audio extraction and speech-to-text processing.
+- Language detection: classifiers to filter content by the language of interest.
+- Topic modeling and embeddings: text vectorization, dimensionality reduction, and clustering to identify themes.
+- Multilabel classification: scalable training, validation and inference pipeline to detect categories in comments.
+- Visual analyses: face detection and aggregation of demographic attributes at population level (no individual identification).
+
+Notebook implementations rely on common Python libraries for NLP, CV and ML; dependencies and experimental parameters are documented within each notebook.
+
+## Model and Data Availability
+
+- Trained models and checkpoints are not included in the repository by default for privacy and size reasons.
+- Essential artifacts (for example, video identifiers) are available in `video_ids/video_ids.csv` to enable reproducibility through recollection of public metadata.
+
+---
+
+## Data availability
+
+Raw datasets are not publicly available due to YouTube API policies and privacy constraints. A curated list of YouTube video identifiers (video IDs) is provided in the `video_ids/` folder to enable reproducibility via the official YouTube Data API.
+
+## Model availability
+
+The fine-tuned Llama 3.1 8B model for identifying self-reports and symptom/side-effect discussions in Portuguese-language comments is available at [HuggingFace](https://huggingface.co/gabrielct1/llama-aas-related-classification).
+
+## Ethics statement
+
+This study relies exclusively on publicly available data collected through the YouTube Data API in accordance with the platform’s terms of service. No attempts were made to identify individual users.
+
+---
+
+## Contact
+
+For questions or feedbacks, please contact:
+
+Gabriel da Cunha Torres  
+gabriel.ct@aluno.ufop.edu.br
+
+---
+
+_Research initiative at the Federal University of Ouro Preto (UFOP)._

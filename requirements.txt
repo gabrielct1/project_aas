@@ -27,3 +27,11 @@ scipy
 requests
 yt-dlp
 Pillow
+openai-whisper
+langdetect
+scenedetect
+opencv-python
+insightface
+unidecode
+statsmodels
+pydantic
